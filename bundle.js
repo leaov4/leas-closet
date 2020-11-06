@@ -940,6 +940,28 @@ function ClosetDisplay() {
     }
   }
 
+  function onClickLeftPants() {
+    console.log("index in left", pantsIndex);
+
+    if (pantsIndex > 0) {
+      var i = pantsIndex - 1;
+      setPantsIndex(i);
+    } else {
+      setPantsIndex(pantsImages.length - 1);
+    }
+  }
+
+  function onClickRightPants() {
+    console.log("index in right", pantsIndex);
+
+    if (pantsIndex < pantsImages.length - 1) {
+      var i = pantsIndex + 1;
+      setPantsIndex(i);
+    } else if (pantsIndex >= pantsImages.length - 1) {
+      setPantsIndex(0);
+    }
+  }
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(ClosetDisplayStyles, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, "Display goes here"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
@@ -955,13 +977,15 @@ function ClosetDisplay() {
   }, '>')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-    className: "go-left"
+    className: "go-left",
+    onClick: onClickLeftPants
   }, '<'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
-    src: currentPantsImg,
+    src: pantsImages[pantsIndex],
     width: "30%",
     height: "auto"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-    className: "go-right"
+    className: "go-right",
+    onClick: onClickRightPants
   }, '>'))));
 }
 
