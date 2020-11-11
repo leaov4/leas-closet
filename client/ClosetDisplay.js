@@ -1,17 +1,27 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
+import { connect } from 'react-redux';
+import { fetchShirts } from './redux/shirts';
+import {fetchPants} from './redux/pants';
 
 const shirtImages = ['https://aritzia.scene7.com/is/image/Aritzia/large/f20_07_a03_74147_3030_on_c.jpg', 'https://aritzia.scene7.com/is/image/Aritzia/large/f20_03_a01_73538_19049_off_a.jpg', 'https://aritzia.scene7.com/is/image/Aritzia/large/s20_03_a01_66393_7640_off_a.jpg','https://aritzia.scene7.com/is/image/Aritzia/large/s20_07_a01_76995_12269_off_a.jpg']
-const pantsImages = ['https://aritzia.scene7.com/is/image/Aritzia/large/f20_10_a06_75828_19446_off_a.jpg', 'https://aritzia.scene7.com/is/image/Aritzia/large/f20_10_a06_78229_19092_off_a.jpg', 'https://aritzia.scene7.com/is/image/Aritzia/large/f20_01_a06_77993_19521_on_a.jpg', 'https://aritzia.scene7.com/is/image/Aritzia/large/f20_04_a06_79493_1274_off_a.jpg']
 
-function ClosetDisplay() {
-
+function ClosetDisplay({pants, fetchPants}) {
 
     const [shirtIndex, setShirtIndex] = useState(0);
     const [pantsIndex, setPantsIndex] = useState(0);
+
+    useEffect(() => {
+        fetchPants();
+      }, []);
+
+    let pantsImages = [];
     
+    pants.forEach(item => {
+        pantsImages.push(item.url)
+    })
+
     function onClickLeftShirt(){
-        console.log("index in left", shirtIndex)
         if ( shirtIndex > 0){
             let i = shirtIndex - 1;
             setShirtIndex(i)
@@ -21,7 +31,7 @@ function ClosetDisplay() {
     }
 
     function onClickRightShirt(){
-        console.log("index in right", shirtIndex)
+        console.log("props!!", pants)
         if ( shirtIndex < shirtImages.length-1){
             let i = shirtIndex + 1;
             setShirtIndex(i)
@@ -31,7 +41,6 @@ function ClosetDisplay() {
     }
 
     function onClickLeftPants(){
-        console.log("index in left", pantsIndex)
         if ( pantsIndex > 0){
             let i = pantsIndex - 1;
             setPantsIndex(i)
@@ -41,7 +50,6 @@ function ClosetDisplay() {
     }
 
     function onClickRightPants(){
-        console.log("index in right", pantsIndex)
         if ( pantsIndex < pantsImages.length-1){
             let i = pantsIndex + 1;
             setPantsIndex(i)
@@ -49,7 +57,6 @@ function ClosetDisplay() {
             setPantsIndex(0)
         }
     }
-
 
     return(
         <>
@@ -70,8 +77,14 @@ function ClosetDisplay() {
     )
 }
 
-export default ClosetDisplay;
-
+const mapState = state => {
+    return {
+      pants: state.pantsReducer.pants
+    }
+}
+  
+export default connect(mapState, {fetchPants})(ClosetDisplay)
+  
 const ClosetDisplayStyles = styled.div`
    
    .row{

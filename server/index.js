@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //where we get routes
 //matches all requests to /api
-//app.use('/api', require('./api'));
+app.use('/api', require('./api'));
 
 //should always direct to index.html
 app.get('*', function (req, res) {
