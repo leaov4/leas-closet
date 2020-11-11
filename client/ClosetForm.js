@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-
-
 function ClosetForm(props) {
     console.log(props)
    
@@ -24,12 +22,12 @@ function ClosetForm(props) {
             ...shirt,
             [event.target.name]: event.target.value
         });
-        
     }
 
     function handleShirtSubmit(event){
         event.preventDefault();
-        props.handleSubmitShirt({shirt})
+        
+        props.handleSubmitShirt(shirt.url)
     }
 
     function handlePantsChange(event){
@@ -38,7 +36,6 @@ function ClosetForm(props) {
             ...pants,
             [event.target.name]: event.target.value
         });
-        
     }
 
     function handlePantsSubmit(event){
