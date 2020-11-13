@@ -15,15 +15,13 @@ router.get('/getpants', async (req, res, next) => {
 
 
 router.post('/', async (req, res, next) => {
+  console.log("post request pant")
   try {
     const pant = await Pants.create(req.body)
-    req.json(pant)
+    res.json(pant)
   } catch (error) {
     next(error)
   }
 })
-
-//testing in pants.js!!
-//testing in pants.js, line 2!!
 
 module.exports = router

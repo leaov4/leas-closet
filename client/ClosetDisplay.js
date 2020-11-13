@@ -2,25 +2,28 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux';
 import { fetchShirts } from './redux/shirts';
-import {fetchPants} from './redux/pants';
+import { fetchPants } from './redux/pants';
 
-const shirtImages = ['https://aritzia.scene7.com/is/image/Aritzia/large/f20_07_a03_74147_3030_on_c.jpg', 'https://aritzia.scene7.com/is/image/Aritzia/large/f20_03_a01_73538_19049_off_a.jpg', 'https://aritzia.scene7.com/is/image/Aritzia/large/s20_03_a01_66393_7640_off_a.jpg','https://aritzia.scene7.com/is/image/Aritzia/large/s20_07_a01_76995_12269_off_a.jpg']
-
-function ClosetDisplay({pants, fetchPants}) {
+function ClosetDisplay({pants, fetchPants, shirts, fetchShirts}) {
 
     const [shirtIndex, setShirtIndex] = useState(0);
     const [pantsIndex, setPantsIndex] = useState(0);
-
+    let pantsImages = [];
+    let shirtImages = [];
+    
     useEffect(() => {
         fetchPants();
+        fetchShirts();
       }, []);
 
-    let pantsImages = [];
-    
     pants.forEach(item => {
         pantsImages.push(item.url)
     })
-
+    
+    shirts.forEach(item => {
+        shirtImages.push(item.url)
+    })
+  
     function onClickLeftShirt(){
         if ( shirtIndex > 0){
             let i = shirtIndex - 1;
@@ -79,11 +82,12 @@ function ClosetDisplay({pants, fetchPants}) {
 
 const mapState = state => {
     return {
-      pants: state.pantsReducer.pants
+      pants: state.pantsReducer,
+      shirts: state.shirtReducer
     }
 }
   
-export default connect(mapState, {fetchPants})(ClosetDisplay)
+export default connect(mapState, {fetchPants, fetchShirts})(ClosetDisplay)
   
 const ClosetDisplayStyles = styled.div`
    

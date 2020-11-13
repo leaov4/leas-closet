@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import { postPants } from './redux/pants'
+import { connect } from 'react-redux';
+import { postShirt } from './redux/shirts';
 
-function ClosetForm(props) {
-    console.log(props)
-   
+function ClosetForm({handleSubmitShirt, handleSubmitPants}) {
     const [shirt, setShirt] = useState({
         name: '',
         description: '',
@@ -26,8 +27,8 @@ function ClosetForm(props) {
 
     function handleShirtSubmit(event){
         event.preventDefault();
-        
-        props.handleSubmitShirt(shirt.url)
+        console.log(shirt)
+        handleSubmitShirt(shirt)
     }
 
     function handlePantsChange(event){
@@ -40,7 +41,8 @@ function ClosetForm(props) {
 
     function handlePantsSubmit(event){
         event.preventDefault();
-        props.handleSubmitPants({pants})
+        console.log("pants", pants)
+        handleSubmitPants(pants)
     }
 
 
@@ -76,7 +78,24 @@ function ClosetForm(props) {
     )
 }
 
-export default ClosetForm
+const mapState = state => {
+    return {
+        pants: state.pantsReducer.pants,
+    }
+}
+
+
+const mapDispatch = dispatch => {
+    return {
+      handleSubmitPants(x) {
+        dispatch(postPants(x))
+      },
+      handleSubmitShirt(x) {
+        dispatch(postShirt(x))
+      }   
+    }
+  }
+export default connect(mapState, mapDispatch)(ClosetForm)
 
 const FormContainer = styled.div`
     

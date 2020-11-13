@@ -1,13 +1,12 @@
 import axios from 'axios'
 
-
 //Action types
-const SET_PANTS = 'SET_PANTS'
+const GET_PANTS = 'GET_PANTS'
 const POST_NEW_PANTS = 'POST_NEW_PANTS'
 
 //Action creators
-export const setPants = (pants) => ({
-  type: SET_PANTS,
+export const getPants = (pants) => ({
+  type: GET_PANTS,
   pants
 });
 
@@ -18,40 +17,37 @@ export const postNewPants = (pants) => ({
 
 //THUNK
 export const fetchPants = () => async (dispatch) => {
-  
-    try {
-    const { data: pants } = await axios.get('/api/pants/getpants')
-    console.log("HERE", pants)
-    dispatch(setPants(pants))
+  try {
+    const {data} = await axios.get('/api/pants/getpants')
+    dispatch(getPants(data))
   } catch (err) {
     console.error(err)
   }
 };
 
-
-export async function postPants(name, description, url){
+//THUNK
+export const postPants = (pants) => async (dispatch) => {
+  console.log(pants)
   try {
-    await axios.post('/', {name, description, url})
+    const {data} = await axios.post('api/pants', pants)
+    console.log(data)
+    dispatch(postNewPants(data))
   } catch (error){
    console.error(error)
   }
 }
 
-const initialState = {
-  pants: []
-}
-// Take a look at app/redux/index.js to see where this reducer is
-// added to the Redux store with combineReducers
+const initialState = []
+
 const pantsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_PANTS:
-      return {...state, pants: action.pants}
-    // case POST_NEW_SHIRT:
-    //   return [...state, action.shirt]
+    case GET_PANTS:
+      return action.pants
+    case POST_NEW_PANTS:
+      return [...state].concat(action.pants)
     default:
       return state
   }
 }
 
 export default pantsReducer;
-

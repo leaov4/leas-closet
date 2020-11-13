@@ -14,15 +14,23 @@ router.get('/getshirts', async (req, res, next) => {
   })
 
 
-router.post('/', (req, res, next) => {
-  console.log("in post")
-  console.log(req.body)
-  Shirt.create(req.body)
-    .then(shirt => res.json(shirt))
-    .catch(next)
+router.post('/', async (req, res, next) => {
+  console.log("post request shirt")
+  try {
+    const shirt = await Shirt.create(req.body)
+    res.json(shirt)
+  } catch (error) {
+    next(error)
+  }
 })
 
-//extra comments in new feature!
-//FIRST FEATURE TO MERGE
 
 module.exports = router
+
+//router.post('/', (req, res, next) => {
+  //   console.log("in post")
+  //   console.log(req.body)
+  //   Shirt.create(req.body)
+  //     .then(shirt => res.json(shirt))
+  //     .catch(next)
+  // })

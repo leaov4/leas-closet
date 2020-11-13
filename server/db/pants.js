@@ -4,10 +4,6 @@ const db = require('./database');
 const Pants = db.define('pants', {
     name: {
         type: Sequelize.STRING,
-        allowNull: false,
-        validate: {
-            notEmpty: true
-          }
     },
     description: {
         type:  Sequelize.TEXT
